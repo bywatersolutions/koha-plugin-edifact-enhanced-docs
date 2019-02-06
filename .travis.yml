@@ -1,0 +1,31 @@
+sudo: required
+jobs:
+  include:
+    - stage: Regenerate finished documents
+      services:
+        - docker
+      before_install:
+        - echo $TRAVIS_BRANCH
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then exit 0; fi
+        - mkdir -p output
+        - docker pull asciidoctor/docker-asciidoctor
+      script:
+        - if [ ! -f INSTALLATION/INSTALLATION.adoc ]; then exit 0; fi
+        - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor
+          asciidoctor-pdf -D /documents/output INSTALLATION/INSTALLATION.adoc
+      after_error:
+        - docker logs asciidoc-to-pdf
+      after_failure:
+        - docker logs asciidoc-to-pdf
+      after_success:
+        - ls -alh $TRAVIS_BUILD_DIR/output/
+        - git config user.name "Kyle M Hall"
+        - git config user.email "kyle@bywatersolutions.com"
+        - git remote add github https://$GITHUB_TOKEN@github.com/bywatersolutions/koha-plugin-edifact-enhanced-docs.git
+        - git fetch --all
+        - git checkout github/master
+        - cp $TRAVIS_BUILD_DIR/output/INSTALLATION.pdf "$TRAVIS_BUILD_DIR/$TRAVIS_BRANCH.pdf"
+        - git add "$TRAVIS_BUILD_DIR/$TRAVIS_BRANCH.pdf"
+        - git status
+        - git commit -m "$TRAVIS_BRANCH - Update PDF [ci-skip]"
+        - git push github HEAD:master
