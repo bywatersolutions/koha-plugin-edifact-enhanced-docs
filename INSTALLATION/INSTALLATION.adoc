@@ -1,5 +1,5 @@
 = Ingram EDI setup for Koha
-Lory Koch, Kyle Hall
+Lory Koch, Kyle Hall, Andrew Fuerste-Henry
 :toc:
 :icons: font
 :source-highlighter: rouge
@@ -9,6 +9,7 @@ Lory Koch, Kyle Hall
 
 Lory Koch <lory.koch@ingramcontent.com> +
 Kyle Hall <kyle@bywatersolutions.com> +
+Andrew Fuerste-Henry <andrew@bywatersolutions.com> +
 
 The latest version of this document is available as https://github.com/bywatersolutions/koha-plugin-edifact-enhanced/blob/ingram/INSTALLATION/INSTALLATION.pdf[PDF] and https://github.com/bywatersolutions/koha-plugin-edifact-enhanced/blob/ingram/INSTALLATION/INSTALLATION.adoc[on the web].
 
